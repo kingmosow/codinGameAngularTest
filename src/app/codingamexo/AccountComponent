@@ -1,0 +1,125 @@
+import { Component, NgModule, Injectable, Inject, forwardRef } from '@angular/core';
+
+
+// Do not modify the service as validation tests will not pass
+@Injectable({ providedIn: 'root' })
+export class AccountingService{
+  private accountsWithBalance: Map<string, number> = new Map();
+
+  public async createAccount(accountID: string): Promise<void> {
+    if (this.accountsWithBalance.has(accountID)){
+      throw Error("ACCOUNT_EXISTS");
+    }
+    this.accountsWithBalance.set(accountID, 0);
+  }
+
+  public async topUp(accountID: string, amount: number): Promise<number>{
+    if (!this.accountsWithBalance.has(accountID)){
+      throw Error("ACCOUNT_DOES_NOT_EXIST");
+    }
+    this.accountsWithBalance.set(accountID, this.accountsWithBalance.get(accountID)+ amount);
+    return this.accountsWithBalance.get(accountID);
+  }
+}
+
+// Implement the component here
+@Component({
+  selector:'account-component',
+  template: `
+  <div>
+
+<p>
+  <input
+    type="text"
+    id="createAccountInput"
+    name="createAccountInput"
+    #createAccountInput/></p>
+
+<button
+  id="createAccountButton"
+  #createAccountButton
+  type="button"
+  (click)="create(createAccountInput.value)">Create</button>
+
+<p>
+  <input
+    type="text"
+    id="topupAccountInput"
+    name="topupAccountInput"
+    #topupAccountInput
+  />
+</p>
+
+<p>
+  <input
+    type="number"
+    id="topupAmountInput"
+    name="topupAmountInput"
+    #topupAmountInput
+  />
+</p>
+
+<button
+  id="topupAccountButton"
+  #topupAccountButton
+  type="button"
+  (click)="topup(topupAccountInput.value,topupAmountInput.value)">
+  Topup
+</button>
+
+<div id="message">{{ message }}</div>
+</div>
+  `,
+})
+export class AccountComponent {
+  message:string|undefined
+  constructor(private accountingService:AccountingService){
+  }
+  create(value: string) {
+    if (value != null && value != '') {
+      this.accountingService
+        .createAccount(value)
+        .then((res) => {
+          this.message = 'Successfully added account';
+        })
+        .catch((err) => {
+          this.message = err;
+        });
+    }
+  }
+
+  topup(accountID: string,amount: string) {
+    // let accountID = this.topupAccount;
+    // let amount: number | undefined = this.topupAmount;
+    let amounts:number =+amount;
+    if(amounts===0)
+    this.message = 'INVALID_INPUT';
+
+    if (accountID != null && accountID != '' && amount!=null && amounts > 0) {
+      this.accountingService
+        .topUp(accountID, amounts)
+        .then((res) => {
+          this.message = 'Topup with ' + res;
+        })
+        .catch((err) => {
+          this.message = err;
+        });
+    }
+  }
+
+}
+
+// #region Preview
+@Component({
+    template: `<account-component></account-component>`
+})
+export class PreviewComponent { }
+// #endregion Preview
+
+// #region Module declaration - Do not Change
+@NgModule({
+    declarations: [PreviewComponent, AccountComponent],
+    entryComponents: [PreviewComponent]
+})
+export class PreviewModule { }
+// #endregion Module declaration

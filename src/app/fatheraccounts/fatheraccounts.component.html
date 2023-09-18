@@ -1,0 +1,18 @@
+
+<div #timeof >
+  <p> time of transaction :  {{this.timeoftrans | date:'ww: yyyy-MMMMM-dd HH-mm-ss'}}</p>
+</div>
+
+<div #amount >
+  <p> amount : {{this.amounts|  currency:'EUR':'symbol':'9.1-3':'en-US' }}</p>
+  <!--  <p> amount : €{{this.amount |currency:this.currency}}</p>-->
+  <!--  <p> amount : €{{this.amount | 'locale':'en-US',digitsInfo-->
+  <!--    '9.1-3'}}</p>-->
+<!--  <p> amount : €{{this.curr |currency:this.currency}}</p>-->
+
+</div>
+<div id="fee" class="">
+<!--  <p>fee : {{this.fee | number:'1.1-3'}}</p>-->
+  <p>fee : {{this.fee | percent:'1.2-3'}}</p>
+<!--  <p>fee : {{this.fee | percent:'4.3-5'}}</p>-->
+</div>

@@ -1,0 +1,48 @@
+
+<div>
+  <p>Accounts </p>
+  <p>Creer un account</p>
+  <p>
+    <input
+      type="text"
+      id="createAccountInput"
+      name="createAccountInput"
+      #createAccountInput/></p>
+
+  <button
+    id="createAccountButton"
+    #createAccountButton
+    type="button"
+    (click)="create(createAccountInput.value)">Create</button>
+
+  <div id="message">{{ message }}</div>
+
+  <p>Rechercher un account</p>
+  <p>
+    <input
+      type="text"
+      id="topupAccountInput"
+      name="topupAccountInput"
+      #topupAccountInput
+    />
+  </p>
+
+  <p>
+    <input
+      type="number"
+      id="topupAmountInput"
+      name="topupAmountInput"
+      #topupAmountInput
+    />
+  </p>
+
+  <button
+    id="topupAccountButton"
+    #topupAccountButton
+    type="button"
+    (click)="topup(topupAccountInput.value,topupAmountInput.value)">
+    Topup
+  </button>
+
+  <div id="message2">{{ message }}</div>
+</div>

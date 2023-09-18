@@ -1,0 +1,41 @@
+// Angular 15.x​​​​​​‌​‌​​​‌‌‌‌‌​​​‌‌​​‌​​‌​​​ code
+import { Component, NgModule, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+
+@Component({
+  selector:'test-component',
+  template: `
+  <div #noData id="noData" *ngIf="!inputData">No data</div>
+  <div #dataList id="dataList" *ngFor="let item of inputData; index as index;">
+    <div [style.color]="item=== 'Odd' ? 'red': 'green'">{{item}}</div>
+  </div>
+  `,
+})
+export class TestComponent {
+  @Input()
+  public inputData: Array<string>
+
+  constructor() {
+  }
+
+}
+
+// #region Preview
+@Component({
+    template: `
+      <test-component></test-component>
+      <test-component [inputData]="['Odd','Even']"></test-component>
+    `
+})
+export class PreviewComponent { }
+// #endregion Preview
+
+// #region Module declaration - Do not Change
+@NgModule({
+    imports: [CommonModule],
+    declarations: [PreviewComponent, TestComponent],
+    entryComponents: [PreviewComponent]
+})
+export class PreviewModule { }
+// #endregion Module declaration

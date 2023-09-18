@@ -1,0 +1,8 @@
+@Component({
+  selector:'transaction-component',
+  template: `
+<div id="time" >{{this.timeOfTransaction |date:'ww: yyyy MMMMM dd HH-mm-ss'}}</div>
+<div id="amount" >{{this.amount| currency:this.currency:'symbol':'9.1-3':'en-US' }}</div>
+<div id="fee">{{this.fee | percent:'1.2-3'}}</div>
+  `
+})
